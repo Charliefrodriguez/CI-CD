@@ -1,0 +1,35 @@
+pipeline{ 
+    
+    agent any 
+    
+    stages{ 
+        stage('build image'){ 
+            agent{ 
+                docker{ 
+                    image 'python:buster'
+                    reuseNode true
+                }
+            }
+            
+            steps{ 
+                sh 'python --version'
+                sh 'touch file.txt'
+                sh 'echo "read me" >> file.txt'
+            }
+        }
+        stage('push image') { 
+            agent{ 
+                docker{ 
+                    image 'gradle:6.7-jdk11'
+                    reuseNode true
+                }
+            }
+            
+            steps{ 
+                sh 'gradle --version' 
+                sh 'cat file.txt'
+            }
+        } 
+    }
+
+}
