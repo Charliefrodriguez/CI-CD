@@ -1,0 +1,42 @@
+pipeline{ 
+    
+    agent any 
+    
+    stages{  
+        stage('clean workspace'){ 
+            steps{
+            cleanWs() 
+            }
+        }
+        stage('build image'){ 
+            agent{ 
+                docker{ 
+                    image 'bitnami/git'
+                    reuseNode true
+                }
+            }
+            
+            steps{ 
+                sh 'git clone https://github.com/Charliefrodriguez/CI-CD.git'
+            }
+        }
+        stage('build and push image') { 
+            agent{ 
+                docker{ 
+                    image 'docker:dind'
+                    args '--privileged'
+                    reuseNode true
+                }
+            }
+            
+            steps{ 
+                sh 'ls'
+                sh "docker build -t $image_name:$tag -f ./CI-CD/Dockerfile.groovy . "
+                sh 'docker images'
+              //  sh 'docker push'  
+               // sh 'cat file.txt'
+            }
+        } 
+    }
+
+}
