@@ -1,2 +1,5 @@
 jenkins-home
 *un~
+.vscode
+_-pycache__
+venv
