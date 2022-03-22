@@ -16,7 +16,7 @@ pipeline{
                 }
             }
             
-            steps{ 
+            steps{ // this repo and branch should be triggered by webhook to make it as general as possible
                 sh 'git clone https://github.com/Charliefrodriguez/CI-CD.git'
             }
         }
@@ -30,7 +30,7 @@ pipeline{
             }
             
             steps{ 
-                sh 'ls'
+                sh 'ls' // these steps could be condensed into one sh script
                 sh "docker build -t $image_name:$tag -f ./CI-CD/Dockerfile.groovy . "
                 sh 'docker images'
               //  sh 'docker push'  

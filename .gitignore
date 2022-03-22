@@ -3,3 +3,4 @@ jenkins-home
 .vscode
 _-pycache__
 venv
+*.pyc
